@@ -100,3 +100,24 @@ TEST(TokenizerTest, GetTokensTest4)
         std::cout << "-------------" << std::endl;
     }
 }
+
+TEST(TokenizerTest, GetTokensTest5)
+{
+    auto st = std::make_shared<SortedTable>();
+    EXPECT_EQ(true, st->Load("pinyin.txt"));
+    Tokenizer tokenizer(st);
+    
+    std::string s{"fangan"};
+    
+    for (const auto c : s) {
+        tokenizer.AddChar(c);
+    }
+    std::vector<std::vector<std::string>> tokens_list;
+    tokenizer.GetAllTokens(tokens_list);
+    for (const auto & tokens: tokens_list) {
+        for (const auto & token : tokens) {
+            std::cout << token << std::endl;
+        }
+        std::cout << "---------------" << std::endl;
+    }
+}

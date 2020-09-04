@@ -62,3 +62,18 @@ std::vector<std::string> Tokenizer::GetTokens()
 
     return tokens;
 }
+
+void Tokenizer::GetAllTokens(std::vector<std::vector<std::string>> & tokens_list)
+{
+    std::vector<std::vector<int>> paths = dag_->GetShortestPaths(0, raw_input_.size());
+    for (const auto & path : paths) {
+        std::vector<std::string> tokens;
+        for (size_t i = 0; i < path.size()-1; ++i) {
+            int pos = path[i];
+            int len = path[i+1] - path[i];
+            std::string token = raw_input_.substr(pos, len);
+            tokens.push_back(token);
+        }
+        tokens_list.push_back(tokens);
+    }
+}

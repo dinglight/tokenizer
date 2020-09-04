@@ -16,6 +16,7 @@ class Tokenizer {
  public:
     void AddChar(char c);
     std::vector<std::string> GetTokens();
+    void GetAllTokens(std::vector<std::vector<std::string>> & tokens_list);
  private:
     std::string raw_input_;
     std::shared_ptr<Dictionary> dict_;

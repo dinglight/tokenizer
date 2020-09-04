@@ -28,6 +28,10 @@ void DirectedAcyclicGraph::AddEdge(int start, int end, int weight)
     if (nodes_[end].cost > (weight + nodes_[start].cost)) {
         nodes_[end].cost = (weight + nodes_[start].cost);
         nodes_[end].pre = start;
+        nodes_[end].froms.clear();
+        nodes_[end].froms.push_back(start);
+    } else if (nodes_[end].cost == (weight + nodes_[start].cost)) {
+        nodes_[end].froms.push_back(start);
     }
 }
 
@@ -44,3 +48,27 @@ std::vector<int> DirectedAcyclicGraph::GetShortestPath(int start, int end)
     std::reverse(path.begin(), path.end());
     return path;
 }
+
+std::vector<std::vector<int>> DirectedAcyclicGraph::GetShortestPaths(int start, int end)
+{
+    std::vector<std::vector<int>> paths;
+
+    const auto & froms = nodes_[end].froms;
+    for (const auto & from : froms) {
+        if (from < start) {
+            continue;
+        }
+        if (from == start) {
+            paths.push_back(std::vector<int>{start, end});
+        } else {
+            std::vector<std::vector<int>> forward_paths = GetShortestPaths(start, from);
+            for (auto & path : forward_paths) {
+                path.push_back(end);
+                paths.push_back(path);
+            }
+        }
+    }
+
+    return paths;
+}
+

@@ -8,6 +8,7 @@ class DirectedAcyclicGraph {
     struct Node {
         int pre;
         int cost;
+        std::vector<int> froms;
     };
  public:
     DirectedAcyclicGraph();
@@ -16,6 +17,7 @@ class DirectedAcyclicGraph {
     void AppendVertex();
     void AddEdge(int start, int end, int weight);
     std::vector<int> GetShortestPath(int start, int end);
+    std::vector<std::vector<int>> GetShortestPaths(int start, int end);
  private:
     std::vector<Node> nodes_;
 };
