@@ -12,7 +12,7 @@ static int GetWeigthByMatchType(MatchType type)
     case MatchType::EXACT:
         return 1;
     case MatchType::PARTIAL:
-        return 2;
+        return 1;
     default:
         return 65535;
     }
@@ -31,9 +31,20 @@ void Tokenizer::AddChar(char c)
     raw_input_.push_back(c);
     dag_->AppendVertex();
     size_t max_len = std::min(dict_->GetMaxKeyLength(), raw_input_.size());
+    bool empty = true;
     for (size_t len = max_len; len > 0; --len) {
         std::string suffix = raw_input_.substr(raw_input_.size()-len, len);
-        dag_->AddEdge(raw_input_.size()-len, raw_input_.size(), GetWeigthByMatchType(dict_->Match(suffix)));
+        MatchType type = dict_->Match(suffix);
+        if (type != MatchType::NOMATCH) {
+            dag_->AddEdge(raw_input_.size()-len, raw_input_.size(), GetWeigthByMatchType(type));
+            empty = false;
+        }
+    }
+
+    // add the last character to dag
+    if (empty) {
+        std::string suffix = raw_input_.substr(raw_input_.size() - 1, 1);
+        dag_->AddEdge(raw_input_.size()-1, raw_input_.size(), GetWeigthByMatchType(dict_->Match(suffix)));
     }
 }
 

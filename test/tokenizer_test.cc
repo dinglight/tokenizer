@@ -56,9 +56,12 @@ TEST(TokenizerTest, GetTokensTest2)
     }
 
     std::vector<std::string> tokens = tokenizer.GetTokens();
-    for (const auto token : tokens) {
-        std::cout << token << std::endl;
-    }
+    EXPECT_EQ(5U, tokens.size());
+    EXPECT_STREQ("pin", tokens[0]);
+    EXPECT_STREQ("yin", tokens[1]);
+    EXPECT_STREQ("shu", tokens[2]);
+    EXPECT_STREQ("ru", tokens[3]);
+    EXPECT_STREQ("fa", tokens[4]);
 }
 
 TEST(TokenizerTest, GetTokensTest3)
@@ -71,12 +74,13 @@ TEST(TokenizerTest, GetTokensTest3)
     
     for (const auto c : s) {
         tokenizer.AddChar(c);
-        std::vector<std::string> tokens = tokenizer.GetTokens();
-        for (const auto token : tokens) {
-            std::cout << token << std::endl;
-        }
-        std::cout << "-------------" << std::endl;
     }
+    std::vector<std::string> tokens = tokenizer.GetTokens();
+    EXPECT_EQ(4U, tokens.size());
+    EXPECT_STREQ("p", tokens[0]);
+    EXPECT_STREQ("y", tokens[1]);
+    EXPECT_STREQ("shu", tokens[2]);
+    EXPECT_STREQ("r", tokens[3]);
 }
 
 TEST(TokenizerTest, GetTokensTest4)
@@ -85,7 +89,7 @@ TEST(TokenizerTest, GetTokensTest4)
     EXPECT_EQ(true, st->Load("pinyin.txt"));
     Tokenizer tokenizer(st);
     
-    std::string s{"ivuhi"};
+    std::string s{"ivuhv"};
     
     for (const auto c : s) {
         tokenizer.AddChar(c);
