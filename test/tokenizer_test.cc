@@ -94,7 +94,7 @@ TEST(TokenizerTest, GetTokensTest4)
     for (const auto c : s) {
         tokenizer.AddChar(c);
         std::vector<std::string> tokens = tokenizer.GetTokens();
-        for (const auto token : tokens) {
+        for (const auto & token : tokens) {
             std::cout << token << std::endl;
         }
         std::cout << "-------------" << std::endl;
@@ -109,7 +109,7 @@ TEST(TokenizerTest, GetTokensTest5)
     
     std::string s{"fangan"};
     
-    for (const auto c : s) {
+    for (const auto & c : s) {
         tokenizer.AddChar(c);
     }
     std::vector<std::vector<std::string>> tokens_list;

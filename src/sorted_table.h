@@ -7,7 +7,7 @@
 class SortedTable : public Dictionary {
 public:
     SortedTable();
-    ~SortedTable();
+    virtual ~SortedTable();
     bool Load(const std::string & file_path) override;
     MatchType Match(const std::string & key) const override;
     size_t GetMaxKeyLength() const override;
